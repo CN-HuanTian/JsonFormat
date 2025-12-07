@@ -1,11 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ElContainer, ElHeader, ElMain, ElFooter } from 'element-plus'
+import HeaderIndex from '@/view/header/index.vue'
+import MainIndex from '@/view/main/index.vue'
+import FooterIndex from '@/view/footer/index.vue'
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <ElContainer class="h-100vh flex flex-col">
+    <ElHeader class="bg-blue !p-0">
+      <HeaderIndex></HeaderIndex>
+    </ElHeader>
+    <ElMain class="flex-1 overflow-hidden">
+      <MainIndex></MainIndex>
+    </ElMain>
+    <ElFooter class="bg-yellow !p-0">
+      <FooterIndex></FooterIndex>
+    </ElFooter>
+  </ElContainer>
 </template>
 
-<style scoped></style>
+<style lang="scss">
+@import './style/custom.scss';
+</style>
