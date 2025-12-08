@@ -6,7 +6,7 @@ import FooterIndex from '@/view/footer/index.vue'
 </script>
 
 <template>
-  <ElContainer class="h-100vh flex flex-col">
+  <ElContainer class="h-100vh min-h-[500px] flex flex-col">
     <ElHeader class="bg-blue !p-0">
       <HeaderIndex></HeaderIndex>
     </ElHeader>
