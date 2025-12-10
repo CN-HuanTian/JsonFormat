@@ -20,5 +20,5 @@ import FooterIndex from '@/view/footer/index.vue'
 </template>
 
 <style lang="scss">
-@import './style/custom.scss';
+@use './style/custom.scss';
 </style>
