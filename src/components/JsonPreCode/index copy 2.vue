@@ -4,16 +4,16 @@
       <span v-for="(item, index) in res" :key="index" class="line-num">{{ index  }}</span>
     </div> -->
     <div class="render-bg">
-      <template v-for="(item, index) in res" :key="index">
-        <span class="line-num select-none">{{ index }}&nbsp;&nbsp;</span>
-        <span>
+      <div>
+        <template v-for="(item, index) in res" :key="index">
+          <span class="line-num select-none">{{ index }}&nbsp;&nbsp;</span>
           <!-- 前置空格 -->
           <span v-for="nbspNum in item.key.length - 1" :key="nbspNum">
             &nbsp;&nbsp;&nbsp;&nbsp;
           </span>
           <!-- key -->
           <!-- 当为括号结尾|数组,不限制key值 -->
-          <template
+          <span
             v-if="
               !(
                 item.type[item.type.length - 2] == 'Array' ||
@@ -21,19 +21,20 @@
                 item.type[item.type.length - 1] == 'ObjectEnd'
               )
             "
+            style="color: red"
           >
-            <span style="color: red"> "{{ item.key[item.key.length - 1] }}"</span>
-            <span class="colon">:</span>
-          </template>
-
+            "{{ item.key[item.key.length - 1] }}"
+          </span>
+          :
           <!-- value -->
           <span :style="getLabelStyle(item.type[item.type.length - 1])">{{
             getValueContent(item.type[item.type.length - 1], item.value)
           }}</span>
-        </span>
-        <!-- debug 当前对象type -->
-        <span class="select-none"> &nbsp;&nbsp; &nbsp;&nbsp;{{ item.type }}</span>
-      </template>
+          <br />
+        </template>
+      </div>
+      <!-- debug 当前对象type -->
+      <!-- <span class="select-none"> &nbsp;&nbsp; &nbsp;&nbsp;{{ item.type }}</span> -->
     </div>
   </div>
 </template>
@@ -53,7 +54,7 @@ function getLabelStyle(type: FullType | undefined) {
     case 'Number':
       return 'color: blue'
     case 'Boolean':
-      return 'color: orange'
+      return 'color: yellow'
     case 'Null':
       return 'color: gray'
     case 'ArrayStart':
@@ -79,14 +80,9 @@ function getValueContent(type: FullType | undefined, value: unknown) {
 
 <style scoped lang="scss">
 .render-bg {
+  width: 100%;
   display: grid;
-  grid-template-columns: max-content repeat(2, 1fr);
-  .colon {
-    &::before,
-    &::after {
-      content: ' ';
-    }
-  }
+  grid-template-columns: max-content repeat(1, 1fr);
 }
 </style>
 
