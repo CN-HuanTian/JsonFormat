@@ -1,11 +1,8 @@
 <template>
   <div class="w-full h-full flex flex-row gap-2">
-    <!-- <div class="flex flex-col">
-      <span v-for="(item, index) in res" :key="index" class="line-num">{{ index  }}</span>
-    </div> -->
     <div class="render-bg">
-      <template v-for="(item, index) in res" :key="index">
-        <span class="line-num select-none">{{ index }}&nbsp;&nbsp;</span>
+      <template v-for="(item, index) in showData" :key="index">
+        <span class="line-num select-none">{{ index + 1 }}&nbsp;&nbsp;</span>
         <span>
           <!-- 前置空格 -->
           <span v-for="nbspNum in item.key.length - 1" :key="nbspNum">
@@ -32,20 +29,21 @@
           }}</span>
         </span>
         <!-- debug 当前对象type -->
-        <span class="select-none"> &nbsp;&nbsp; &nbsp;&nbsp;{{ item.type }}</span>
+        <!-- <span class="select-none"> &nbsp;&nbsp; &nbsp;&nbsp;{{ item.type }}</span> -->
       </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts" name="">
-import type { FullType } from '@/types/global'
+import type { DataFlattenType, FullType } from '@/types/jsonPreCode'
 import dataFlatten from '@/utils/dataFlatten'
+import { computed } from 'vue'
 
 const data = defineModel<object>('value')
-const res = dataFlatten(data.value)
-console.log(res)
-
+const showData = computed<DataFlattenType[]>(() => {
+  return dataFlatten(data.value)
+})
 function getLabelStyle(type: FullType | undefined) {
   switch (type) {
     case 'String':
@@ -80,7 +78,7 @@ function getValueContent(type: FullType | undefined, value: unknown) {
 <style scoped lang="scss">
 .render-bg {
   display: grid;
-  grid-template-columns: max-content repeat(2, 1fr);
+  grid-template-columns: max-content repeat(1, 1fr);
   .colon {
     &::before,
     &::after {

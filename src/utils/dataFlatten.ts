@@ -1,4 +1,4 @@
-import type { ValueType, FullType, DataFlattenType } from '@/types/global'
+import type { ValueType, FullType, DataFlattenType } from '@/types/jsonPreCode'
 
 /**
  * JSON扁平化工具

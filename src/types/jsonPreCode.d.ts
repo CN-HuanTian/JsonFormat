@@ -7,6 +7,7 @@ type ExtendType = 'ObjectStart' | 'ObjectEnd' | 'ArrayStart' | 'ArrayEnd'
 /** 全部数据类型 */
 export type FullType = ValueType | ExtendType
 
+/** 扁平化数据类型 */
 export interface DataFlattenType {
   /** key列表 */
   key: string[]
