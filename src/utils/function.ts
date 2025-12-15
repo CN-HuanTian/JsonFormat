@@ -38,3 +38,13 @@ export function exportFile(message: string) {
   a.download = file.name
   a.click()
 }
+
+/** 更改主题
+ * @param theme light | dark
+ */
+export function changeTheme(theme: 'light' | 'dark') {
+  const html = document.querySelector('html')
+  if (html) {
+    html.className = theme
+  }
+}

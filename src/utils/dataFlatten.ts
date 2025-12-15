@@ -1,12 +1,28 @@
 import type { ValueType, FullType, DataFlattenType } from '@/types/jsonPreCode'
 
+const boundary: { start: DataFlattenType; end: DataFlattenType } = {
+  start: {
+    key: [],
+    value: '{',
+    type: ['ObjectStart'],
+  },
+  end: {
+    key: [],
+    value: '}',
+    type: ['ObjectEnd'],
+  },
+}
+
 /**
  * JSON扁平化工具
  * @param inputObject 要格式化的JSON
  */
 export default function objectFlatten(inputObject: object | undefined): DataFlattenType[] {
   if (inputObject) {
-    return objectFlattenCore(inputObject as Record<string, unknown>)
+    const res: DataFlattenType[] = objectFlattenCore(inputObject as Record<string, unknown>)
+    res.unshift(boundary.start)
+    res.push(boundary.end)
+    return res
   } else {
     return []
   }

@@ -4,6 +4,7 @@ import App from './App.vue'
 import 'virtual:uno.css'
 // element-plus
 import 'element-plus/dist/index.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 // //highlight.js
 // import 'highlight.js/styles/stackoverflow-light.css'
 // import hljs from 'highlight.js'

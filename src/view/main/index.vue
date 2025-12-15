@@ -9,6 +9,8 @@
         </ElRadioGroup>
         <ElButton @click="handleCopy" type="primary">复制</ElButton>
         <ElButton @click="handleExport" type="primary">导出</ElButton>
+        <ElButton v-if="config.theme == 'light'" @click="handelTheme('dark')" :icon="Moon" circle />
+        <ElButton v-else @click="handelTheme('light')" :icon="Sunny" circle />
       </div>
     </div>
     <ElCard class="flex-1" body-class="h-full !p-0">
@@ -20,7 +22,7 @@
           input-style="height:100%;padding:8px 0 8px 16px;"
           type="textarea"
         ></ElInput>
-        <div class="border border-gray-300 flex-[7] overflow-hidden bg-white rounded-sm">
+        <div class="border border-gray-300 flex-[7] overflow-hidden rounded-sm">
           <ShowData
             class="w-full h-full"
             v-model:value="userInput"
@@ -34,8 +36,9 @@
 </template>
 
 <script setup lang="ts" name="">
+import { Sunny, Moon } from '@element-plus/icons-vue'
 import { ElCard, ElInput, ElButton, ElRadioGroup, ElRadioButton } from 'element-plus'
-import { copy, exportFile } from '@/utils/function'
+import { changeTheme, copy, exportFile } from '@/utils/function'
 import { ref } from 'vue'
 import type { Config } from '@/types/main'
 import ShowData from './showData.vue'
@@ -47,6 +50,7 @@ const userInput = ref(
 /** 配置项 */
 const config = ref<Config>({
   showMode: 'tree',
+  theme: 'light',
 })
 /** 处理后的数据 */
 const useValue = ref<object>({})
@@ -57,7 +61,12 @@ function handleCopy() {
 }
 /** 导出 */
 function handleExport() {
-exportFile(userInput.value)
+  exportFile(userInput.value)
+}
+/** 切换主题 */
+function handelTheme(theme: 'light' | 'dark') {
+  changeTheme(theme)
+  config.value.theme = theme
 }
 </script>
 

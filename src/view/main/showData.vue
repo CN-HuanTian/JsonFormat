@@ -3,8 +3,7 @@
     <ElScrollbar height="100%" class="w-full">
       <!-- 树状展示 -->
       <div class="p-[8px] w-full h-full">
-        <JsonPreCode v-if="config?.showMode == 'tree'" v-model:value="showMessage"></JsonPreCode>
-        <p v-else class="w-full h-full break-all">{{ showMessage }}</p>
+        <JsonPreCode v-model:value="showMessage" :config="config"></JsonPreCode>
       </div>
     </ElScrollbar>
   </div>
@@ -18,7 +17,11 @@ import type { Config } from '@/types/main'
 /** 用户输入内容 */
 const userInput = defineModel<string>('value', { default: '' })
 /** 配置项 */
-const config = defineModel<Config>('config', {})
+const config = defineModel<Config>('config', {
+  default: {
+    showMode: 'tree',
+  },
+})
 /** 给父组件使用的值 */
 const resultValue = defineModel<object>('resultValue', { default: {} })
 
@@ -27,18 +30,28 @@ const showMessage = computed(() => {
   if (userInput.value === '') {
     return ''
   }
+  return parseJson(userInput.value)
+})
+
+function parseJson(json: string) {
   try {
-    return JSON.parse(userInput.value)
+    return JSON.parse(json)
   } catch (error) {
-    console.log(error)
-    return {}
+    return {
+      error: (error as { message: string }).message,
+    }
   }
-})
-watch(showMessage, (value) => {
-  resultValue.value = value
-},{
-  immediate: true
-})
+}
+
+watch(
+  showMessage,
+  (value) => {
+    resultValue.value = value
+  },
+  {
+    immediate: true,
+  },
+)
 </script>
 
 <style scoped></style>
