@@ -18,7 +18,7 @@
         <ElInput
           v-model="userInput"
           resize="none"
-          class="flex-[3] h-full input-textarea"
+          class="flex-[3] h-full  input-textarea"
           input-style="height:100%;padding:8px 0 8px 16px;"
           type="textarea"
         ></ElInput>
