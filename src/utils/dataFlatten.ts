@@ -41,8 +41,18 @@ function objectFlattenCore(
   pathList: string[] = [],
   typeList: FullType[] = [],
 ): DataFlattenType[] {
+  /** 当前对象的所有key */
+  const keys: string[] = Object.keys(inputObject)
+
   // 遍历传递的JSON对象
-  for (const key in inputObject) {
+  for (let index = 0; index < keys.length; index++) {
+
+    /** 当前key */
+    const key: string = keys[index] as string
+
+    /** 是否为最后一个元素 */
+    const isEnd = index === keys.length - 1
+
     /** 获取当前值的数据类型 */
     const type: ValueType = getValueType(inputObject[key])
 
@@ -62,6 +72,7 @@ function objectFlattenCore(
         key: currentPathList,
         value: inputObject[key],
         type: currentTypeList,
+        isEnd: isEnd,
       })
     }
     // 复合数据类型,进行递归处理
@@ -71,6 +82,7 @@ function objectFlattenCore(
         key: currentPathList,
         value: type === 'Array' ? '[' : '{',
         type: [...typeList, (type + 'Start') as FullType],
+        isEnd: isEnd,
       })
 
       // 递归处理子集数据
@@ -86,6 +98,7 @@ function objectFlattenCore(
         key: currentPathList,
         value: type === 'Array' ? ']' : '}',
         type: [...typeList, (type + 'End') as FullType],
+        isEnd: isEnd,
       })
     }
   }

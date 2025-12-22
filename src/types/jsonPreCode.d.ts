@@ -15,4 +15,6 @@ export interface DataFlattenType {
   value: unknown
   /** 数据类型列表 */
   type: FullType[]
+  /** 是否为对象或数组的最后一个元素 */
+  isEnd?: boolean
 }

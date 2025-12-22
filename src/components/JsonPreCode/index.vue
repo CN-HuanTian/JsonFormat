@@ -8,9 +8,7 @@
           <template v-if="item.key.length != 0">
             <!-- 前置空格 -->
             <template v-if="showActive">
-              <span v-for="nbspNum in item.key.length" :key="nbspNum">
-                &nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
+              <span v-for="nbspNum in item.key.length" :key="nbspNum">&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </template>
             <!-- key -->
             <!-- 当为括号结尾|数组,不限制key值 -->
@@ -23,7 +21,7 @@
                 )
               "
             >
-              <span style="color: red"> "{{ item.key[item.key.length - 1] }}"</span>
+              <span style="color: red">"{{ item.key[item.key.length - 1] }}"</span>
               <span class="colon">:</span>
             </template>
           </template>
@@ -32,6 +30,17 @@
           <span :style="getLabelStyle(item.type[item.type.length - 1])">{{
             getValueContent(item.type[item.type.length - 1], item.value)
           }}</span>
+
+          <!-- 分号 -->
+          <span
+            v-if="
+              !['ArrayStart', '', '', 'ObjectStart'].includes(
+                item.type[item.type.length - 1] as string,
+              ) && index !== showData.length - 1&&!item.isEnd
+            "
+            >,</span
+          >
+          <span>{{  }}</span>
         </span>
       </template>
     </div>
@@ -54,7 +63,6 @@ const showData = computed<DataFlattenType[]>(() => {
 })
 /** 是否展示树形结构 */
 const showActive = computed(() => {
-  console.log(props.config)
   return !(props.config.showMode == 'flat')
 })
 
