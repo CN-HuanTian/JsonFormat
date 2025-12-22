@@ -1,15 +1,19 @@
 import type { ValueType, FullType, DataFlattenType } from '@/types/jsonPreCode'
-
+/**
+ * 默认返回值的头部和尾部
+ */
 const boundary: { start: DataFlattenType; end: DataFlattenType } = {
   start: {
     key: [],
     value: '{',
     type: ['ObjectStart'],
+    isEnd: false,
   },
   end: {
     key: [],
     value: '}',
     type: ['ObjectEnd'],
+    isEnd: false,
   },
 }
 
@@ -19,7 +23,9 @@ const boundary: { start: DataFlattenType; end: DataFlattenType } = {
  */
 export default function objectFlatten(inputObject: object | undefined): DataFlattenType[] {
   if (inputObject) {
+    // 获取解析后的值
     const res: DataFlattenType[] = objectFlattenCore(inputObject as Record<string, unknown>)
+    // 头尾添加标记
     res.unshift(boundary.start)
     res.push(boundary.end)
     return res
@@ -29,7 +35,7 @@ export default function objectFlatten(inputObject: object | undefined): DataFlat
 }
 
 /**
- * JSON扁平化工具
+ * JSON扁平化工具(核心算法)
  * @param inputObject 要格式化的JSON
  * @param initList 初始化时使用的存放列表
  * @param pathList 存放当前的路径列表
@@ -46,7 +52,6 @@ function objectFlattenCore(
 
   // 遍历传递的JSON对象
   for (let index = 0; index < keys.length; index++) {
-
     /** 当前key */
     const key: string = keys[index] as string
 
@@ -104,6 +109,7 @@ function objectFlattenCore(
   }
   return initList
 }
+
 /**
  * 获取数据类型
  * @param data 要获取类型的数据
@@ -111,4 +117,58 @@ function objectFlattenCore(
  */
 function getValueType(data: unknown): ValueType {
   return Object.prototype.toString.call(data).slice(8, -1) as ValueType
+}
+
+/**
+ * Json转字符串
+ */
+export function jsonToString(data: DataFlattenType[]): string {
+  console.log(data)
+  const res: string[] = []
+  for (const index in data) {
+    const item = data[index] as DataFlattenType
+
+    let str = ''
+    // 添加空格
+    str += ''.padStart(item.key.length * 4, ' ')
+    // key
+    if (
+      !(
+        item.type[item.type.length - 2] == 'Array' ||
+        item.type[item.type.length - 1] == 'ArrayEnd' ||
+        item.type[item.type.length - 1] == 'ObjectEnd'
+      ) &&
+      item.key.length >= 1
+    ) {
+      str += `"` + item.key[item.key.length - 1] + '":'
+    }
+
+    // value
+    str += getValueContent(item.type[item.type.length - 1], item.value)
+
+    // 尾部逗号
+    if (
+      !['ArrayStart', 'ObjectStart'].includes(item.type[item.type.length - 1] as string) &&
+      Number(index) != data.length - 1 &&
+      !item.isEnd
+    ) {
+      str += ','
+    }
+    res.push(str)
+  }
+  console.log(res.join('\n'))
+  return res.join('\n')
+}
+
+/** 获取value内容 */
+function getValueContent(type: FullType | undefined, value: unknown) {
+  switch (type) {
+    case 'String':
+      const res = (value as string).replace(/\n/g, '')
+      return `"${res}"`
+    case 'Null':
+      return 'null'
+    default:
+      return value
+  }
 }

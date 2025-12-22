@@ -14,6 +14,8 @@ import { ElScrollbar } from 'element-plus'
 import JsonPreCode from '@/components/JsonPreCode/index.vue'
 import { computed, watch } from 'vue'
 import type { Config } from '@/types/main'
+import dataFlatten from '@/utils/dataFlatten'
+import type { DataFlattenType } from '@/types/jsonPreCode'
 /** 用户输入内容 */
 const userInput = defineModel<string>('value', { default: '' })
 /** 配置项 */
@@ -23,23 +25,25 @@ const config = defineModel<Config>('config', {
   },
 })
 /** 给父组件使用的值 */
-const resultValue = defineModel<object>('resultValue', { default: {} })
+const resultValue = defineModel<DataFlattenType[]>('resultValue', { default: [] })
 
 /** 应展示内容 */
 const showMessage = computed(() => {
   if (userInput.value === '') {
-    return ''
+    return parseJson('{}')
   }
   return parseJson(userInput.value)
 })
 
-function parseJson(json: string) {
+function parseJson(input: string): DataFlattenType[] {
   try {
-    return JSON.parse(json)
+    const json = JSON.parse(input)
+    return dataFlatten(json)
   } catch (error) {
-    return {
+    const e = {
       error: (error as { message: string }).message,
     }
+    return dataFlatten(e)
   }
 }
 

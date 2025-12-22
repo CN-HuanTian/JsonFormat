@@ -8,7 +8,9 @@
           <template v-if="item.key.length != 0">
             <!-- 前置空格 -->
             <template v-if="showActive">
-              <span v-for="nbspNum in item.key.length" :key="nbspNum">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <span v-for="nbspNum in item.key.length" :key="nbspNum"
+                >&nbsp;&nbsp;&nbsp;&nbsp;</span
+              >
             </template>
             <!-- key -->
             <!-- 当为括号结尾|数组,不限制key值 -->
@@ -34,13 +36,13 @@
           <!-- 分号 -->
           <span
             v-if="
-              !['ArrayStart', '', '', 'ObjectStart'].includes(
-                item.type[item.type.length - 1] as string,
-              ) && index !== showData.length - 1&&!item.isEnd
+              !['ArrayStart', 'ObjectStart'].includes(item.type[item.type.length - 1] as string) &&
+              index !== showData.length - 1 &&
+              !item.isEnd
             "
             >,</span
           >
-          <span>{{  }}</span>
+          <span>{{}}</span>
         </span>
       </template>
     </div>
@@ -50,16 +52,15 @@
 <script setup lang="ts" name="">
 import type { DataFlattenType, FullType } from '@/types/jsonPreCode'
 import type { Config } from '@/types/main'
-import dataFlatten from '@/utils/dataFlatten'
 import { computed } from 'vue'
-const data = defineModel<object>('value')
+const data = defineModel<DataFlattenType[]>('value', { default: [] })
 const props = defineProps<{
   config: Config
 }>()
 
 /** 展示的数据 */
 const showData = computed<DataFlattenType[]>(() => {
-  return dataFlatten(data.value)
+  return data.value
 })
 /** 是否展示树形结构 */
 const showActive = computed(() => {
@@ -90,7 +91,8 @@ function getLabelStyle(type: FullType | undefined) {
 function getValueContent(type: FullType | undefined, value: unknown) {
   switch (type) {
     case 'String':
-      return `"${value}"`
+      const res = (value as string).replace(/\n/g, '')
+      return `"${res}"`
     case 'Null':
       return 'null'
     default:

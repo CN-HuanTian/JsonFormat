@@ -30,9 +30,11 @@
             v-model:resultValue="useValue"
           ></ShowData>
         </div>
+        <!-- <ElScrollbar class="flex-[5] overflow-hidden">
+          <pre>{{ useValue }}</pre>
+        </ElScrollbar> -->
       </div>
     </ElCard>
-    
   </div>
 </template>
 
@@ -43,6 +45,7 @@ import { changeTheme, copy, exportFile } from '@/utils/function'
 import { ref } from 'vue'
 import type { Config } from '@/types/main'
 import ShowData from './showData.vue'
+import type { DataFlattenType } from '@/types/jsonPreCode'
 
 /** 用户输入内容 */
 const userInput = ref(
@@ -54,15 +57,15 @@ const config = ref<Config>({
   theme: 'light',
 })
 /** 处理后的数据 */
-const useValue = ref<object>({})
+const useValue = ref<DataFlattenType[]>([])
 /** ====================  方法  ==================== */
 /** 复制 */
 function handleCopy() {
-  copy(userInput.value)
+  copy(useValue.value)
 }
 /** 导出 */
 function handleExport() {
-  exportFile(userInput.value)
+  exportFile(useValue.value)
 }
 /** 切换主题 */
 function handelTheme(theme: 'light' | 'dark') {

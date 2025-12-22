@@ -1,12 +1,14 @@
+import type { DataFlattenType } from '@/types/jsonPreCode'
 import { ElMessage } from 'element-plus'
+import { jsonToString } from './dataFlatten'
 
 /**
  * 复制文本
  * @param message 复制的文本
  */
-export function copy(message: string) {
+export function copy(message: DataFlattenType[]) {
   try {
-    navigator.clipboard.writeText(message)
+    navigator.clipboard.writeText(jsonToString(message))
     ElMessage.success('复制成功')
   } catch (err) {
     ElMessage.error('复制失败')
@@ -18,7 +20,7 @@ export function copy(message: string) {
  * 导出文件,文件名为当前时间
  * @param message 导出的文件内容
  */
-export function exportFile(message: string) {
+export function exportFile(message: DataFlattenType[]) {
   const date = new Date()
     .toLocaleString('zh-CN', {
       year: 'numeric',
@@ -30,7 +32,7 @@ export function exportFile(message: string) {
       hour12: false,
     })
     .replace(/\D/g, '')
-  const file = new File([message], `${date}.json`, {
+  const file = new File([jsonToString(message)], `${date}.json`, {
     type: 'application/json',
   })
   const a = document.createElement('a')
