@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full h-full flex flex-row gap-2">
-    <div :class="{ 'tree-bg': showActive, 'flat-bg': !showActive }">
+  <div class="w-full h-full flex flex-row gap-2 background">
+    <div :class="{ 'tree-bg': showActive, 'break-all': !showActive }">
       <template v-for="(item, index) in showData" :key="index">
-        <span v-if="showActive" class="line-num select-none">{{ index + 1 }}&nbsp;&nbsp;</span>
+        <span v-if="showActive" class="line-num">{{ index + 1 }}&nbsp;&nbsp;</span>
         <span>
           <!-- key长度为0,不显示前缀,视为边界 -->
           <template v-if="item.key.length != 0">
@@ -23,13 +23,13 @@
                 )
               "
             >
-              <span style="color: red">"{{ item.key[item.key.length - 1] }}"</span>
+              <span class="syntax-key">"{{ item.key[item.key.length - 1] }}"</span>
               <span class="colon">:</span>
             </template>
           </template>
 
           <!-- value -->
-          <span :style="getLabelStyle(item.type[item.type.length - 1])">{{
+          <span :class="getLabelClass(item.type[item.type.length - 1])">{{
             getValueContent(item.type[item.type.length - 1], item.value)
           }}</span>
 
@@ -42,7 +42,6 @@
             "
             >,</span
           >
-          <span>{{}}</span>
         </span>
       </template>
     </div>
@@ -50,8 +49,8 @@
 </template>
 
 <script setup lang="ts" name="">
-import type { DataFlattenType, FullType } from '@/types/jsonPreCode'
-import type { Config } from '@/types/main'
+import type { DataFlattenType, FullType } from './types'
+import type { Config } from '@/layout/main/types'
 import { computed } from 'vue'
 const data = defineModel<DataFlattenType[]>('value', { default: [] })
 const props = defineProps<{
@@ -67,24 +66,24 @@ const showActive = computed(() => {
   return !(props.config.showMode == 'flat')
 })
 
-/** 获取标签样式 */
-function getLabelStyle(type: FullType | undefined) {
+/** 获取标签类名 */
+function getLabelClass(type: FullType | undefined) {
   switch (type) {
     case 'String':
-      return 'color: green'
+      return 'syntax-string'
     case 'Number':
-      return 'color: blue'
+      return 'syntax-number'
     case 'Boolean':
-      return 'color: orange'
+      return 'syntax-boolean'
     case 'Null':
-      return 'color: gray'
+      return 'syntax-null'
     case 'ArrayStart':
     case 'ArrayEnd':
     case 'ObjectStart':
     case 'ObjectEnd':
-      return ''
+      return 'syntax-bracket'
     default:
-      return 'color: red'
+      return 'syntax-key'
   }
 }
 /** 获取value内容 */
@@ -102,18 +101,52 @@ function getValueContent(type: FullType | undefined, value: unknown) {
 </script>
 
 <style scoped lang="scss">
-.tree-bg {
-  display: grid;
-  grid-template-columns: max-content repeat(1, 1fr);
-  .colon {
-    &::before,
-    &::after {
-      content: ' ';
+.background {
+  * {
+    font-size: 1rem !important;
+  }
+
+  .tree-bg {
+    display: grid;
+    grid-template-columns: max-content repeat(1, 1fr);
+    .colon {
+      &::before,
+      &::after {
+        content: ' ';
+      }
     }
   }
 }
-.flat-bg {
-  word-break: break-all;
+
+// 行号样式
+.line-num {
+  color: var(--text-secondary) !important;
+  user-select: none;
+}
+
+// 语法高亮 - 使用CSS变量支持主题切换
+.syntax-string {
+  color: var(--syntax-string);
+}
+
+.syntax-number {
+  color: var(--syntax-number);
+}
+
+.syntax-boolean {
+  color: var(--syntax-boolean);
+}
+
+.syntax-null {
+  color: var(--syntax-null);
+}
+
+.syntax-key {
+  color: var(--syntax-key);
+}
+
+.syntax-bracket {
+  color: var(--syntax-bracket);
 }
 </style>
 

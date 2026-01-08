@@ -1,8 +1,185 @@
-body{
+// ==================== 全局样式重置 ====================
+body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   min-width: 800px;
   min-height: 500px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
+// ==================== 全局滚动条样式 ====================
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--text-secondary);
+  }
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+// ==================== CSS变量定义 ====================
+:root {
+  // 亮色主题
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f7fa;
+  --bg-header: #409eff;
+  --bg-footer: #f0f9eb;
+  --bg-input: #ffffff;
+  --bg-code: #ffffff;
+  --border-color: #dcdfe6;
+  --border-hover: #1673ff;
+  --text-primary: #303133;
+  --text-secondary: #606266;
+  --text-header: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  // 语法高亮颜色 - 亮色模式
+  --syntax-string: #67c23a;
+  --syntax-number: #409eff;
+  --syntax-boolean: #e6a23c;
+  --syntax-null: #909399;
+  --syntax-key: #f56c6c;
+  --syntax-bracket: #303133;
+}
+
+html.dark {
+  // 暗色主题
+  --bg-primary: #1d1e1f;
+  --bg-secondary: #25262b;
+  --bg-header: #2c3e50;
+  --bg-footer: #25262b;
+  --bg-input: #25262b;
+  --bg-code: #1d1e1f;
+  --border-color: #4c4d4f;
+  --border-hover: #409eff;
+  --text-primary: #e5eaf3;
+  --text-secondary: #cfd3dc;
+  --text-header: #e5eaf3;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+
+  // 语法高亮颜色 - 暗色模式（使用更亮的颜色）
+  --syntax-string: #95d475;
+  --syntax-number: #79bbff;
+  --syntax-boolean: #f3d19e;
+  --syntax-null: #a8abb2;
+  --syntax-key: #f89898;
+  --syntax-bracket: #e5eaf3;
+}
+
+// ==================== 全局组件样式 ====================
+
+// Element Plus 组件暗色模式适配
+html.dark {
+  // 输入框暗色样式
+  .el-textarea__inner {
+    background-color: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+
+    &:hover {
+      border-color: var(--border-hover) !important;
+    }
+
+    &:focus {
+      border-color: var(--border-hover) !important;
+    }
+
+    &::placeholder {
+      color: var(--text-secondary);
+    }
+  }
+
+  // 单选按钮组暗色样式
+  .el-radio-group {
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+
+    .el-radio-button {
+      .el-radio-button__inner {
+        background-color: var(--bg-secondary);
+        color: var(--text-primary);
+        border-color: var(--border-color);
+
+        &:hover {
+          color: var(--border-hover);
+        }
+      }
+
+      &.is-active .el-radio-button__inner {
+        background-color: var(--border-hover);
+        color: #fff;
+        border-color: var(--border-hover);
+      }
+    }
+  }
+
+  // 按钮暗色样式
+  .el-button {
+    &.el-button--primary {
+      background-color: var(--border-hover);
+      border-color: var(--border-hover);
+    }
+
+    &:not(.el-button--primary) {
+      background-color: var(--bg-secondary);
+      color: var(--text-primary);
+      border-color: var(--border-color);
+
+      &:hover {
+        background-color: var(--border-color);
+      }
+    }
+  }
+
+  // 滚动条暗色样式
+  .el-scrollbar__wrap {
+    &::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--border-color);
+      border-radius: 4px;
+
+      &:hover {
+        background-color: var(--text-secondary);
+      }
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+  }
+}
+
+// 容器和布局暗色适配
+html.dark {
+  .el-container {
+    background-color: var(--bg-primary);
+  }
+
+  .el-header {
+    background-color: var(--bg-header) !important;
+  }
+
+  .el-main {
+    background-color: var(--bg-primary) !important;
+  }
+
+  .el-footer {
+    background-color: var(--bg-footer) !important;
+  }
+}

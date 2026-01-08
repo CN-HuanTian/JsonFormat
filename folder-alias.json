@@ -1,1 +1,29 @@
-{}
+{
+    "src/components/JsonPreCode": {
+        "description": "JSON解析组件"
+    },
+    "src/layout/footer": {
+        "description": "尾部"
+    },
+    "src/layout/header": {
+        "description": "头部"
+    },
+    "src/layout/main": {
+        "description": "内容区域"
+    },
+    "src/layout/main/components/ShowData.vue": {
+        "description": "JSON解析框架"
+    },
+    "src/utils/clipboard.ts": {
+        "description": "复制"
+    },
+    "src/utils/file.ts": {
+        "description": "导出"
+    },
+    "src/utils/formart.ts": {
+        "description": "json解析"
+    },
+    "src/utils/theme.ts": {
+        "description": "主题切换"
+    }
+}

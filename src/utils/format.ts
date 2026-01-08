@@ -1,4 +1,4 @@
-import type { ValueType, FullType, DataFlattenType } from '@/types/jsonPreCode'
+import type { ValueType, FullType, DataFlattenType } from '@/components/JsonPreCode/types'
 /**
  * 默认返回值的头部和尾部
  */

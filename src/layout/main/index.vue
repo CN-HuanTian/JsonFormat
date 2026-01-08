@@ -1,51 +1,47 @@
 <template>
   <div class="h-full flex flex-col gap-2">
-    <div class="w-full flex justify-between">
-      <div></div>
-      <div class="flex gap-2 [&>*]:!m-0">
-        <ElRadioGroup v-model="config.showMode">
-          <ElRadioButton label="树状" value="tree"></ElRadioButton>
-          <ElRadioButton label="扁平" value="flat"></ElRadioButton>
-        </ElRadioGroup>
-        <ElButton @click="handleCopy" type="primary">复制</ElButton>
-        <ElButton @click="handleExport" type="primary">导出</ElButton>
-        <ElButton v-if="config.theme == 'light'" @click="handelTheme('dark')" :icon="Moon" circle />
-        <ElButton v-else @click="handelTheme('light')" :icon="Sunny" circle />
-      </div>
+    <div class="w-full flex justify-end flex gap-2 [&>*]:!m-0 mb-2">
+      <ElRadioGroup v-model="config.showMode">
+        <ElRadioButton label="树状" value="tree"></ElRadioButton>
+        <ElRadioButton label="扁平" value="flat"></ElRadioButton>
+      </ElRadioGroup>
+      <ElButton @click="handleCopy" type="primary">复制</ElButton>
+      <ElButton @click="handleExport" type="primary">导出</ElButton>
+      <ElButton v-if="config.theme == 'light'" @click="handelTheme('dark')" :icon="Moon" circle />
+      <ElButton v-else @click="handelTheme('light')" :icon="Sunny" circle />
     </div>
-    <ElCard class="flex-1" body-class="h-full !p-0">
+    <div class="flex-1 overflow-hidden">
       <div class="flex h-full gap-2 flex-row">
         <ElInput
           v-model="userInput"
           resize="none"
-          class="flex-[3] h-full input-textarea [&>textarea]:text-[16px]"
-          input-style="height:100%;padding:8px 0 8px 16px;"
+          class="flex-[3] h-full input-textarea"
+          input-style=""
           type="textarea"
-        ></ElInput>
-        <div class="border border-gray-300 flex-[7] overflow-hidden rounded-sm">
+        />
+        <div class="json-preview-container flex-[7] overflow-hidden rounded-sm">
           <ShowData
             class="w-full h-full"
             v-model:value="userInput"
             v-model:config="config"
             v-model:resultValue="useValue"
-          ></ShowData>
+          />
         </div>
-        <!-- <ElScrollbar class="flex-[5] overflow-hidden">
-          <pre>{{ useValue }}</pre>
-        </ElScrollbar> -->
       </div>
-    </ElCard>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts" name="">
 import { Sunny, Moon } from '@element-plus/icons-vue'
-import { ElCard, ElInput, ElButton, ElRadioGroup, ElRadioButton } from 'element-plus'
-import { changeTheme, copy, exportFile } from '@/utils/function'
+import { ElInput, ElButton, ElRadioGroup, ElRadioButton } from 'element-plus'
+import { changeTheme } from '@/utils/theme'
+import { copy } from '@/utils/clipboard'
+import { exportFile } from '@/utils/file'
 import { ref } from 'vue'
-import type { Config } from '@/types/main'
-import ShowData from './showData.vue'
-import type { DataFlattenType } from '@/types/jsonPreCode'
+import type { Config } from './types'
+import ShowData from './components/ShowData.vue'
+import type { DataFlattenType } from '@/components/JsonPreCode/types'
 
 /** 用户输入内容 */
 const userInput = ref(
@@ -76,8 +72,29 @@ function handelTheme(theme: 'light' | 'dark') {
 
 <style scoped lang="scss">
 .input-textarea :deep(.el-textarea__inner) {
+  font-size: 1rem !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-input);
+  box-shadow: none !important;
+  height: 100%;
+  padding: 8px;
   &::-webkit-scrollbar {
     display: none;
+  }
+  &:hover {
+    border: 1px solid var(--border-hover);
+  }
+  &:focus {
+    border-color: var(--border-hover);
+  }
+}
+
+.json-preview-container {
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-code);
+  &:hover {
+    border-color: var(--border-hover);
   }
 }
 </style>

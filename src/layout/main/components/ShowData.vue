@@ -13,9 +13,9 @@
 import { ElScrollbar } from 'element-plus'
 import JsonPreCode from '@/components/JsonPreCode/index.vue'
 import { computed, watch } from 'vue'
-import type { Config } from '@/types/main'
-import dataFlatten from '@/utils/dataFlatten'
-import type { DataFlattenType } from '@/types/jsonPreCode'
+import type { Config } from '../types'
+import dataFlatten from '@/utils/format'
+import type { DataFlattenType } from '@/components/JsonPreCode/types'
 /** 用户输入内容 */
 const userInput = defineModel<string>('value', { default: '' })
 /** 配置项 */
