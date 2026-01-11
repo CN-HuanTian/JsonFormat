@@ -12,9 +12,3 @@
   font-size: 0.875rem;
 }
 </style>
-
-<script lang="ts">
-export default {
-  name: 'FooterIndex',
-}
-</script>

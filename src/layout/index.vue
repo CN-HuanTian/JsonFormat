@@ -1,3 +1,10 @@
+<script setup lang="ts" name="">
+import { ElContainer, ElHeader, ElMain, ElFooter } from 'element-plus'
+import HeaderIndex from '@/layout/header/index.vue'
+import MainIndex from '@/layout/main/index.vue'
+import FooterIndex from '@/layout/footer/index.vue'
+</script>
+
 <template>
   <ElContainer class="h-100vh min-h-[500px] flex flex-col app-container">
     <ElHeader class="app-header !p-0">
@@ -12,16 +19,4 @@
   </ElContainer>
 </template>
 
-<script setup lang="ts" name="">
-import { ElContainer, ElHeader, ElMain, ElFooter } from 'element-plus'
-import HeaderIndex from '@/layout/header/index.vue'
-import MainIndex from '@/layout/main/index.vue'
-import FooterIndex from '@/layout/footer/index.vue'
-</script>
-
 <style scoped></style>
-<script lang="ts">
-export default {
-  name: 'LayoutIndex',
-}
-</script>

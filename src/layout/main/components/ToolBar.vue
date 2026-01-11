@@ -10,6 +10,7 @@ import type { DataFlattenType } from '@/components/JsonPreCode/types'
 /** ====================  数据  ==================== */
 /** 全局配置 */
 const config = defineModel<Config>('config', { default: { showMode: 'tree', theme: 'light' } })
+  
 /** 使用的数据 */
 const useValue = defineModel<DataFlattenType[]>('useValue', { default: [] })
 
@@ -19,6 +20,7 @@ function handelTheme(theme: 'light' | 'dark') {
   changeTheme(theme)
   config.value.theme = theme
 }
+
 </script>
 
 <template>
