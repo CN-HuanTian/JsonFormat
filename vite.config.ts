@@ -10,12 +10,8 @@ import ElementPlus from 'unplugin-element-plus/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    vueDevTools(),
-    UnoCSS(),
-    ElementPlus({}),
-  ],
+  base: '/jsonformatter/', // 上线前配置子路径
+  plugins: [vue(), vueDevTools(), UnoCSS(), ElementPlus({})],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
