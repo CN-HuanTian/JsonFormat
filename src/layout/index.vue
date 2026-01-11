@@ -6,14 +6,14 @@ import FooterIndex from '@/layout/footer/index.vue'
 </script>
 
 <template>
-  <ElContainer class="h-100vh min-h-[500px] flex flex-col app-container">
+  <ElContainer class="h-[100vh] min-h-[500px] flex flex-col w-full app-container">
     <ElHeader class="app-header !p-0">
       <HeaderIndex></HeaderIndex>
     </ElHeader>
     <ElMain class="flex-1 overflow-hidden app-main">
       <MainIndex></MainIndex>
     </ElMain>
-    <ElFooter class="app-footer !p-0">
+    <ElFooter class="app-footer !h-auto !py-2">
       <FooterIndex></FooterIndex>
     </ElFooter>
   </ElContainer>

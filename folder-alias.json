@@ -31,5 +31,8 @@
     },
     "src/layout/main/components/ToolBar.vue": {
         "description": "工具栏"
+    },
+    "src/utils/device.ts": {
+        "description": "是否为移动设备"
     }
 }

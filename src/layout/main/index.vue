@@ -6,6 +6,7 @@ import type { DataFlattenType } from '@/components/JsonPreCode/types'
 import ToolBar from './components/ToolBar.vue'
 import type { Config } from './types'
 import { getSystemTheme } from '@/utils/theme'
+import { isMobile } from '@/utils/device'
 
 /** ====================  数据  ==================== */
 
@@ -14,6 +15,7 @@ const config = ref<Config>({
   showMode: 'tree',
   theme: 'light',
   overflow: 'break',
+  indent: 4,
 })
 
 /** 用户输入内容 */
@@ -52,8 +54,11 @@ watch(
     <ToolBar v-model:config="config" v-model:use-value="useValue" />
     <!-- 主体 -->
     <div class="flex-1 overflow-hidden">
-      <ElSplitter class="gap-2 h-full overflow-hidden">
-        <ElSplitterPanel min="150px" size="30%">
+      <ElSplitter
+        class="gap-2 h-full overflow-hidden"
+        :layout="isMobile() ? 'vertical' : 'horizontal'"
+      >
+        <ElSplitterPanel :min="isMobile() ?'50px':'250px'"  size="30%">
           <ElInput
             v-model="userInput"
             resize="none"
@@ -62,7 +67,7 @@ watch(
             type="textarea"
           />
         </ElSplitterPanel>
-        <ElSplitterPanel min="150px" class="h-full !overflow-hidden">
+        <ElSplitterPanel :min="isMobile() ?'50px':'250px'" class="h-full !overflow-hidden">
           <div class="json-preview-container h-full overflow-hidden rounded-sm">
             <ShowData
               class="w-full h-full"

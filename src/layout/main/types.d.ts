@@ -5,4 +5,6 @@ export interface Config {
   theme: 'light' | 'dark'
   /** 超出显示 */
   overflow: 'break' | 'scroll'
+  /** 缩进数量 */
+  indent: number
 }

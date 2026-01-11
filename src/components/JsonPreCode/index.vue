@@ -3,7 +3,7 @@
     class="w-full h-full flex flex-row gap-2 background"
     :class="{ 'overflow-hidden break-all': useConfig.overflow }"
   >
-    <div :class="{'tree-bg': useConfig.showMode, 'text-nowrap': !useConfig.overflow }">
+    <div :class="{ 'tree-bg': useConfig.showMode, 'text-nowrap': !useConfig.overflow }">
       <template v-for="(item, index) in data" :key="index">
         <!-- 行号 -->
         <span v-if="useConfig.showMode" class="line-num">{{ index + 1 }}&nbsp;&nbsp;</span>
@@ -14,9 +14,11 @@
           <template v-if="item.key.length != 0">
             <!-- 前置空格 -->
             <template v-if="useConfig.showMode">
-              <span v-for="nbspNum in item.key.length" :key="nbspNum"
-                >&nbsp;&nbsp;&nbsp;&nbsp;</span
-              >
+              <!-- 第X层缩进 -->
+              <span v-for="nbspNum in item.key.length" :key="nbspNum">
+                <!-- &nbsp;&nbsp;&nbsp;&nbsp; -->
+                <span v-for="index in config.indent" :key="index">&nbsp;</span>
+              </span>
             </template>
             <!-- key -->
             <!-- 当为括号结尾|数组,不限制key值 -->

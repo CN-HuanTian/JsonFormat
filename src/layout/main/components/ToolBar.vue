@@ -2,10 +2,19 @@
 import { copy } from '@/utils/clipboard'
 import { exportFile } from '@/utils/file'
 import { changeTheme } from '@/utils/theme'
-import { ElRadioGroup, ElRadioButton, ElButton, ElPopover, ElForm, ElFormItem } from 'element-plus'
+import {
+  ElRadioGroup,
+  ElRadioButton,
+  ElButton,
+  ElPopover,
+  ElForm,
+  ElFormItem,
+  ElSlider,
+} from 'element-plus'
 import { Icon } from '@iconify/vue'
 import type { Config } from '../types'
 import type { DataFlattenType } from '@/components/JsonPreCode/types'
+import { isMobile } from '@/utils/device'
 
 /** ====================  数据  ==================== */
 /** 全局配置 */
@@ -26,7 +35,7 @@ function handelTheme(theme: 'light' | 'dark') {
   <!-- 工具栏 -->
   <div class="w-full flex justify-end flex gap-2 [&>*]:!m-0 mb-2">
     <!-- 显示模式 -->
-    <ElRadioGroup v-model="config.showMode">
+    <ElRadioGroup v-if="!isMobile()" v-model="config.showMode">
       <ElRadioButton label="树状" value="tree"></ElRadioButton>
       <ElRadioButton label="扁平" value="flat"></ElRadioButton>
     </ElRadioGroup>
@@ -48,13 +57,25 @@ function handelTheme(theme: 'light' | 'dark') {
         </ElButton>
       </template>
       <template #default>
-        <div class="w-full min-w-[200px]">
+        <div class="w-full min-w-[250px] p-2">
           <ElForm :model="config">
+            <!-- 显示模式 -->
+            <ElFormItem label="显示模式">
+              <ElRadioGroup v-if="isMobile()" v-model="config.showMode">
+                <ElRadioButton label="树状" value="tree"></ElRadioButton>
+                <ElRadioButton label="扁平" value="flat"></ElRadioButton>
+              </ElRadioGroup>
+            </ElFormItem>
+            <!-- 超出显示 -->
             <ElFormItem label="超出显示">
               <ElRadioGroup v-model="config.overflow">
                 <ElRadioButton label="换行" value="break"></ElRadioButton>
                 <ElRadioButton label="滚动" value="scroll"></ElRadioButton>
               </ElRadioGroup>
+            </ElFormItem>
+            <!-- 缩进数量 -->
+            <ElFormItem label="缩进数量">
+              <ElSlider v-model="config.indent" :max="8" :min="2" :step="2" show-stops></ElSlider>
             </ElFormItem>
           </ElForm>
         </div>
