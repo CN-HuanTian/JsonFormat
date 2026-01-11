@@ -25,5 +25,8 @@
     },
     "src/utils/theme.ts": {
         "description": "主题切换"
+    },
+    "src/utils/format.ts": {
+        "description": "转换算法"
     }
 }
