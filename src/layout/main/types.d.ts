@@ -3,4 +3,6 @@ export interface Config {
   showMode: 'tree' | 'flat'
   /** 主题 light:亮色 dark:暗色 */
   theme: 'light' | 'dark'
+  /** 超出显示 */
+  overflow: 'break' | 'scroll'
 }

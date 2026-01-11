@@ -1,13 +1,19 @@
 <template>
-  <div class="w-full h-full flex flex-row gap-2 background">
-    <div :class="{ 'tree-bg': showActive, 'break-all': !showActive }">
-      <template v-for="(item, index) in showData" :key="index">
-        <span v-if="showActive" class="line-num">{{ index + 1 }}&nbsp;&nbsp;</span>
-        <span>
+  <div
+    class="w-full h-full flex flex-row gap-2 background"
+    :class="{ 'overflow-hidden break-all': useConfig.overflow }"
+  >
+    <div :class="{'tree-bg': useConfig.showMode, 'text-nowrap': !useConfig.overflow }">
+      <template v-for="(item, index) in data" :key="index">
+        <!-- 行号 -->
+        <span v-if="useConfig.showMode" class="line-num">{{ index + 1 }}&nbsp;&nbsp;</span>
+
+        <!-- 内容 -->
+        <span class="text-warp" :class="{ 'text-nowrap': !useConfig.overflow }">
           <!-- key长度为0,不显示前缀,视为边界 -->
           <template v-if="item.key.length != 0">
             <!-- 前置空格 -->
-            <template v-if="showActive">
+            <template v-if="useConfig.showMode">
               <span v-for="nbspNum in item.key.length" :key="nbspNum"
                 >&nbsp;&nbsp;&nbsp;&nbsp;</span
               >
@@ -37,7 +43,7 @@
           <span
             v-if="
               !['ArrayStart', 'ObjectStart'].includes(item.type[item.type.length - 1] as string) &&
-              index !== showData.length - 1 &&
+              index !== data.length - 1 &&
               !item.isEnd
             "
             >,</span
@@ -52,20 +58,26 @@
 import type { DataFlattenType, FullType } from './types'
 import type { Config } from '@/layout/main/types'
 import { computed } from 'vue'
-const data = defineModel<DataFlattenType[]>('value', { default: [] })
+
+/** ====================  常量  ==================== */
 const props = defineProps<{
   config: Config
 }>()
 
-/** 展示的数据 */
-const showData = computed<DataFlattenType[]>(() => {
-  return data.value
-})
-/** 是否展示树形结构 */
-const showActive = computed(() => {
-  return !(props.config.showMode == 'flat')
+/** 使用的配置 */
+const useConfig = computed(() => {
+  return {
+    /** 展示模式 T:树形结构 F:平铺结构 */
+    showMode: props.config.showMode == 'tree',
+    /** 超出显示模式 T:换行 F:滚动 */
+    overflow: props.config.overflow == 'break',
+  }
 })
 
+/** ====================  数据  ==================== */
+const data = defineModel<DataFlattenType[]>('value', { default: [] })
+
+/** ====================  方法  ==================== */
 /** 获取标签类名 */
 function getLabelClass(type: FullType | undefined) {
   switch (type) {
@@ -86,12 +98,14 @@ function getLabelClass(type: FullType | undefined) {
       return 'syntax-key'
   }
 }
+
 /** 获取value内容 */
 function getValueContent(type: FullType | undefined, value: unknown) {
   switch (type) {
-    case 'String':
+    case 'String': {
       const res = (value as string).replace(/\n/g, '')
       return `"${res}"`
+    }
     case 'Null':
       return 'null'
     default:

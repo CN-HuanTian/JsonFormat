@@ -10,8 +10,17 @@ export function getSystemTheme(): 'light' | 'dark' {
  * 初始化主题，自动检测系统主题并应用
  */
 export function initTheme() {
-  const theme = getSystemTheme()
-  changeTheme(theme)
+  // 检查是否有用户配置
+  const userConfig = localStorage.getItem('userConfig')
+  if (userConfig) {
+    const configData = JSON.parse(userConfig)
+    changeTheme(configData.theme)
+  }
+  // 否则使用系统主题
+  else {
+    const theme = getSystemTheme()
+    changeTheme(theme)
+  }
 }
 
 /**

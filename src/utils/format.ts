@@ -123,7 +123,6 @@ function getValueType(data: unknown): ValueType {
  * Json转字符串
  */
 export function jsonToString(data: DataFlattenType[]): string {
-  console.log(data)
   const res: string[] = []
   for (const index in data) {
     const item = data[index] as DataFlattenType
@@ -156,7 +155,6 @@ export function jsonToString(data: DataFlattenType[]): string {
     }
     res.push(str)
   }
-  console.log(res.join('\n'))
   return res.join('\n')
 }
 
@@ -164,8 +162,8 @@ export function jsonToString(data: DataFlattenType[]): string {
 function getValueContent(type: FullType | undefined, value: unknown) {
   switch (type) {
     case 'String':
-      const res = (value as string).replace(/\n/g, '')
-      return `"${res}"`
+      { const res = (value as string).replace(/\n/g, '')
+      return `"${res}"` }
     case 'Null':
       return 'null'
     default:

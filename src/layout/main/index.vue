@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ElInput, ElSplitter, ElSplitterPanel } from 'element-plus'
-import { ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import ShowData from './components/ShowData.vue'
 import type { DataFlattenType } from '@/components/JsonPreCode/types'
 import ToolBar from './components/ToolBar.vue'
@@ -12,7 +12,8 @@ import { getSystemTheme } from '@/utils/theme'
 /** 配置项 */
 const config = ref<Config>({
   showMode: 'tree',
-  theme: getSystemTheme(),
+  theme: 'light',
+  overflow: 'break',
 })
 
 /** 用户输入内容 */
@@ -23,6 +24,27 @@ const userInput = ref(
 /** 处理后的数据 */
 const useValue = ref<DataFlattenType[]>([])
 
+/** ====================  生命周期  ==================== */
+onBeforeMount(() => {
+  const userConfig = localStorage.getItem('userConfig')
+  if (userConfig) {
+    const configData = JSON.parse(userConfig)
+    console.log(configData)
+    Object.assign(config.value, configData)
+  } else {
+    config.value.theme = getSystemTheme()
+  }
+})
+
+watch(
+  () => config.value,
+  () => {
+    localStorage.setItem('userConfig', JSON.stringify(config.value))
+  },
+  {
+    deep: true,
+  },
+)
 </script>
 <template>
   <div class="h-full flex flex-col gap-2">
@@ -31,7 +53,7 @@ const useValue = ref<DataFlattenType[]>([])
     <!-- 主体 -->
     <div class="flex-1 overflow-hidden">
       <ElSplitter class="gap-2 h-full overflow-hidden">
-        <ElSplitterPanel size="30%">
+        <ElSplitterPanel min="150px" size="30%">
           <ElInput
             v-model="userInput"
             resize="none"
@@ -40,7 +62,7 @@ const useValue = ref<DataFlattenType[]>([])
             type="textarea"
           />
         </ElSplitterPanel>
-        <ElSplitterPanel class="h-full !overflow-hidden">
+        <ElSplitterPanel min="150px" class="h-full !overflow-hidden">
           <div class="json-preview-container h-full overflow-hidden rounded-sm">
             <ShowData
               class="w-full h-full"

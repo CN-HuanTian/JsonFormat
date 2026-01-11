@@ -5,9 +5,14 @@ import { Icon } from '@iconify/vue'
 <template>
   <div class="h-full w-full px-5 flex items-center justify-between header-content">
     <p class="text-xl font-bold header-title">JSON在线解析工具</p>
-    <a href="https://github.com/CN-HuanTian/JsonFormat" target="_blank">
-      <Icon class="cursor-pointer" style="font-size: 24px" icon="mdi:github-box" />
-    </a>
+    <div class="flex flex-row gap-2">
+      <a href="https://github.com/CN-HuanTian/JsonFormat/issues" target="_blank">
+        <Icon class="cursor-pointer" style="font-size: 24px" icon="mdi:bug" />
+      </a>
+      <a href="https://github.com/CN-HuanTian/JsonFormat" target="_blank">
+        <Icon class="cursor-pointer" style="font-size: 24px" icon="mdi:github-box" />
+      </a>
+    </div>
   </div>
 </template>
 

@@ -20,11 +20,7 @@ const showMessage = computed(() => {
 const userInput = defineModel<string>('value', { default: '' })
 
 /** 配置项 */
-const config = defineModel<Config>('config', {
-  default: {
-    showMode: 'tree',
-  },
-})
+const config = defineModel<Config>('config', { default: {} })
 
 /** 给父组件使用的值 */
 const resultValue = defineModel<DataFlattenType[]>('resultValue', { default: [] })
@@ -55,7 +51,7 @@ watch(
 </script>
 <template>
   <div class="w-full h-full">
-    <ElScrollbar height="100%" class="w-full">
+    <ElScrollbar height="100%">
       <!-- 树状展示 -->
       <div class="p-[8px] w-full h-full">
         <JsonPreCode v-model:value="showMessage" :config="config"></JsonPreCode>
