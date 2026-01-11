@@ -21,6 +21,7 @@
     "vue": "^3.5.25"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^24.10.1",
     "@unocss/preset-wind4": "^66.5.10",
@@ -30,11 +31,13 @@
     "@vue/tsconfig": "^0.8.1",
     "eslint": "^9.39.1",
     "eslint-plugin-vue": "~10.5.1",
+    "globals": "^17.0.0",
     "jiti": "^2.6.1",
     "npm-run-all2": "^8.0.4",
     "prettier": "3.6.2",
     "sass": "^1.94.2",
     "typescript": "~5.9.0",
+    "typescript-eslint": "^8.52.0",
     "unocss": "^66.5.10",
     "unplugin-element-plus": "^0.11.1",
     "vite": "^7.2.4",

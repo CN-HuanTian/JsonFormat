@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(net:*)",
-      "Bash(nul)"
+      "Bash(nul)",
+      "Bash(npm run lint)"
     ],
     "deny": [],
     "ask": []

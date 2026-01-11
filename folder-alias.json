@@ -28,5 +28,8 @@
     },
     "src/utils/format.ts": {
         "description": "转换算法"
+    },
+    "src/layout/main/components/ToolBar.vue": {
+        "description": "工具栏"
     }
 }
