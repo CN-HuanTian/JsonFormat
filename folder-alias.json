@@ -1,6 +1,6 @@
 {
     "src/components/JsonPreCode": {
-        "description": "JSON解析组件"
+        "description": "JSON渲染组件"
     },
     "src/layout/footer": {
         "description": "尾部"

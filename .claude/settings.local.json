@@ -3,7 +3,9 @@
     "allow": [
       "Bash(net:*)",
       "Bash(nul)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "Bash(tree:*)",
+      "Bash(findstr:*)"
     ],
     "deny": [],
     "ask": []
